@@ -20,53 +20,50 @@
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
                 const gl = canvas.getContext("webgl", {xrCompatible: True});
-            }
+                            const scene = new THREE.Scene();
                 
-            //contains AR elements
-
-            const scene = new THREE.Scene();
 
             //The cube will have a different color on each side.
 
-            const materials = [
-                new THREE.MeshBasicMaterial({color: 0xff0000}),
-                new THREE.MeshBasicMaterial({color: 0x0000ff}),
-                new THREE.MeshBasicMaterial({color: 0x00ff00}),
-                new THREE.MeshBasicMaterial({color: 0xff00ff}),
-                new THREE.MeshBasicMaterial({color: 0x00ffff}),
-                new THREE.MeshBasicMaterial({color: 0xffff00})
-            ];
+                const materials = [
+                    new THREE.MeshBasicMaterial({color: 0xff0000}),
+                    new THREE.MeshBasicMaterial({color: 0x0000ff}),
+                    new THREE.MeshBasicMaterial({color: 0x00ff00}),
+                    new THREE.MeshBasicMaterial({color: 0xff00ff}),
+                    new THREE.MeshBasicMaterial({color: 0x00ffff}),
+                    new THREE.MeshBasicMaterial({color: 0xffff00})
+                ];
 
-            //create the cube and add it to the demo scene
+                //create the cube and add it to the demo scene
 
-            const cube = new THREE.Mesh(new THREE.BoxBufferGeomtery(0.2, 0.2, 0.2), materials);
-            cube.position.set(1,1,1);
-            scene.add(cube);
+                const cube = new THREE.Mesh(new THREE.BoxBufferGeomtery(0.2, 0.2, 0.2), materials);
+                cube.position.set(1,1,1);
+                scene.add(cube);
 
-            // Set up the WebGLRenderer, whic handles rendering to the session's base layer.
+                // Set up the WebGLRenderer, whic handles rendering to the session's base layer.
 
-            const renderer = new THREE.WebGLRenderer({
-                alpha:true,
-                preserveDrawigBuffer: True,
-                canvas: canvas,
-                contect: gl
-            });
-            renderer.autoClear = false;
+                const renderer = new THREE.WebGLRenderer({
+                    alpha:true,
+                    preserveDrawigBuffer: True,
+                    canvas: canvas,
+                    contect: gl
+                });
+                renderer.autoClear = false;
 
-            const camera = new THREE.PerspectiveCamera();
-            camera.matrixAutoUpdate = false;
+                const camera = new THREE.PerspectiveCamera();
+                camera.matrixAutoUpdate = false;
 
-            //Initialize a webXR session using "immersive-ar"
-            const session = await navigator.xr.requestSession("immersive-ar");
-            session.updateRenderState({
-                baseLayer: new XRWebGLLayer(session, gl)
-            });
+                //Initialize a webXR session using "immersive-ar"
+                const session = await navigator.xr.requestSession("immersive-ar");
+                session.updateRenderState({
+                    baseLayer: new XRWebGLLayer(session, gl)
+                });
 
-            //A 'local' reference space has a native origin is located
-            //near the viewer's position at the time the session was created.
+                //A 'local' reference space has a native origin is located
+                //near the viewer's position at the time the session was created.
 
-            const referenceSpace = await session.requestReferenceSpace('local');
-            const onXRFrame = (time, frame) => {
+                const referenceSpace = await session.requestReferenceSpace('local');
+                const onXRFrame = (time, frame) => {
                 //que up the next draw request.
                 session.requestAnimationFrame(onXRFrame);
 
@@ -91,8 +88,14 @@
                     renderer.render(scene, camera)
                 }
 
-            }
+             }
                 session.requestAnimationFrame(onXRFrame)
+            }
+                
+            //contains AR elements
+
+
+            
         </script>
     </body>
 </html>
